@@ -44,7 +44,7 @@ def move(path):
         # Transform Setpoint from service client
         try:
             trans = tf_buffer.lookup_transform(robot_frame_id, 'map', rospy.Time())
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        except Exception:
             rate.sleep()
             continue
         transformed_setpoint = tf2_geometry_msgs.do_transform_point(response.setpoint, trans)
@@ -53,7 +53,6 @@ def move(path):
         msg = Twist() 
         msg.angular.z = min(max_angular_velocity, atan2(transformed_setpoint.point.y, transformed_setpoint.point.x))
         if msg.angular.z / max_angular_velocity <= max_rot_and_drive:
-
             msg.linear.x = min(max_linear_velocity, hypot(transformed_setpoint.point.x, transformed_setpoint.point.y))
 
         # Publish Twist

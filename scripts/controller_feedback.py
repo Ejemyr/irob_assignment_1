@@ -4,6 +4,7 @@ from math import atan2, hypot, pi
 import actionlib
 import irob_assignment_1.msg
 import rospy
+import tf2_py
 import tf2_geometry_msgs
 import tf2_ros
 from geometry_msgs.msg import Twist
@@ -99,7 +100,7 @@ def move(path):
         # Transform Setpoint from service client
         try:
             trans = tf_buffer.lookup_transform(robot_frame_id, 'map', rospy.Time())
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        except Exception:
             rate.sleep()
             continue
         transformed_setpoint = tf2_geometry_msgs.do_transform_point(response.setpoint, trans)
@@ -108,16 +109,10 @@ def move(path):
         msg = Twist() 
 
         # Fix issues with 2nd and 3rd quadrant
-        angl_rad = atan2(transformed_setpoint.point.y, transformed_setpoint.point.x)
-        if transformed_setpoint.point.x < 0:
-            if transformed_setpoint.point.y > 0:
-                angl_rad += pi
-            else:
-                angl_rad -= pi
-        msg.angular.z = min(max_angular_velocity, angl_rad)
-
+        msg.angular.z = min(max_angular_velocity, atan2(transformed_setpoint.point.y, transformed_setpoint.point.x))
         if msg.angular.z / max_angular_velocity <= max_rot_and_drive:
             msg.linear.x = min(max_linear_velocity, hypot(transformed_setpoint.point.x, transformed_setpoint.point.y))
+
 
         # Publish Twist
         pub.publish(msg)
