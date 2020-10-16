@@ -532,7 +532,7 @@ If you did the mini-project using the simple approach you will notice that the e
 To utilize Actionlib fully we have to use the _callback based action client_. Sadly, there is not a tutorial for a callback based action client written in Python on the Actionlib tutorial page. Therefore I will give you a minimal example of __Callback Based SimpleActionClient__ written in Python here:
 
 ```python
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import rospy
 import actionlib
 import irob_assignment_1.msg

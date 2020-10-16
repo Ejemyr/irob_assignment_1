@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 from rrt_node import RRTNode, raytrace
 from sensor import Sensor

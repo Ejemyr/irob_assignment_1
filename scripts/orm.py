@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 from polar_histogram import PolarHistogram, isfinite, rad_bounded
 from math import hypot, atan2, cos, sin, pi, fabs, isnan, isinf, fmod

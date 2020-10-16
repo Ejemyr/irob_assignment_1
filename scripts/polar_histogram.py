@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 from math import cos, sin, fmod, pi, atan2, isinf, isnan
 from collections import Sequence
